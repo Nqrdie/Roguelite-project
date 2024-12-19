@@ -9,10 +9,18 @@ public class InputHandler : MonoBehaviour
     [Header("Action map name reference")]
     [SerializeField] private string actionMapName = "Player";
 
+    [Header("Action name reference")]
+    [SerializeField] private string movementActionName = "Movement";
+    [SerializeField] private string jumpActionName = "Jump";
+    [SerializeField] private string sprintActionName = "Sprint";
+    [SerializeField] private string attackActionName = "Attack";
+    [SerializeField] private string aimActionName = "Aim";
+
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction sprintAction;
     private InputAction attackAction;
+    private InputAction aimAction;
 
     public Vector2 moveInput { get; private set; }
 
@@ -21,6 +29,8 @@ public class InputHandler : MonoBehaviour
     public bool jumpTriggered { get; private set; }
 
     public bool attackTriggered { get; private set; }
+
+    public bool aimTriggered { get; private set; }  
 
     public static InputHandler Instance { get; private set; }
 
@@ -36,10 +46,11 @@ public class InputHandler : MonoBehaviour
             Destroy(gameObject);
         }
 
-        moveAction = playerControls.FindActionMap(actionMapName).FindAction("Movement");
-        sprintAction = playerControls.FindActionMap(actionMapName).FindAction("Sprint");
-        //jumpAction = playerControls.FindActionMap(actionMapName).FindAction("Jump");
-        //attackAction = playerControls.FindActionMap(actionMapName).FindAction("Attack");
+        moveAction = playerControls.FindActionMap(actionMapName).FindAction(movementActionName);
+        sprintAction = playerControls.FindActionMap(actionMapName).FindAction(sprintActionName);
+        //jumpAction = playerControls.FindActionMap(actionMapName).FindAction(jumpActionName);
+        //attackAction = playerControls.FindActionMap(actionMapName).FindAction(attackActionName);
+        aimAction = playerControls.FindActionMap(actionMapName).FindAction(aimActionName);
         RegisterInputActions();
     }
 
@@ -55,7 +66,10 @@ public class InputHandler : MonoBehaviour
         //jumpAction.performed += context => jumpTriggered = false;
 
         //attackAction.performed += context => attackTriggered = true;
-       // attackAction.performed += context => attackTriggered = false;
+        // attackAction.performed += context => attackTriggered = false;
+
+        aimAction.performed += context => aimTriggered = true;
+        aimAction.canceled += context => aimTriggered = false;
 
 
     }
@@ -66,6 +80,7 @@ public class InputHandler : MonoBehaviour
         sprintAction.Enable();
         //jumpAction.Enable();    
         //attackAction.Enable();
+        aimAction.Enable();
     }
 
     private void OnDisable()
@@ -74,5 +89,6 @@ public class InputHandler : MonoBehaviour
         sprintAction.Disable();
         //jumpAction.Disable();
         //attackAction.Disable();
+        aimAction.Disable();
     }
 }

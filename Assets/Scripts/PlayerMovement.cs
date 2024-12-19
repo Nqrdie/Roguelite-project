@@ -7,9 +7,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float sprintMultiplier;
     [SerializeField] private float rotationSpeed;
 
-    private InputHandler inputHandler;
+    // Booleans for the animator
+    public Vector3 currentMovement;
+    public bool isWalking;
+    public bool isWalkingBackward;
+    public bool isSprinting;
+    public bool isStrafing;
+    public int movementDirection;
 
-    private Vector3 currentMovement;
+    private InputHandler inputHandler;
 
     private CharacterController characterController;
 
@@ -29,7 +35,8 @@ public class PlayerMovement : MonoBehaviour
     private void HandleMovement()
     {
         // Calculate movement speed based on if the player is sprinting
-        float speed = walkSpeed * (inputHandler.sprintValue > 0 ? sprintMultiplier : 1f);
+        isSprinting = inputHandler.sprintValue > 0 && !isWalkingBackward;
+        float speed = walkSpeed * (isSprinting ? sprintMultiplier : 1f);
 
         // Movement input from player
         Vector3 movementInput = new Vector3(inputHandler.moveInput.x, 0, inputHandler.moveInput.y);
@@ -51,16 +58,24 @@ public class PlayerMovement : MonoBehaviour
         currentMovement.x = worldDirection.x * speed;
         currentMovement.z = worldDirection.z * speed;
 
+        currentMovement += Physics.gravity;
+
         characterController.Move(currentMovement * Time.deltaTime);
 
-        HandleRotation(worldDirection);
+        // logic for the animator booleans
+        isWalking = movementInput.magnitude > 0.1f && !isSprinting && !isWalkingBackward;
+        isWalkingBackward = Vector3.Dot(cameraForward, worldDirection) < -0.5f && !isSprinting && inputHandler.aimTriggered;
+        movementDirection = (movementInput.x > 0.1f) ? 1 : (movementInput.x < -0.1f ? -1 : 0);
+        isStrafing = isSprinting && !isWalkingBackward && inputHandler.aimTriggered;
+
+        HandleRotation(worldDirection, cameraForward);
     }
 
-    private void HandleRotation(Vector3 worldDirection)
+    private void HandleRotation(Vector3 worldDirection, Vector3 cameraForward)
     {
         if (currentMovement.magnitude > 0.01f) 
         {
-            Quaternion targetRotation = Quaternion.LookRotation(worldDirection);
+            Quaternion targetRotation = Quaternion.LookRotation(inputHandler.aimTriggered ? cameraForward : worldDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }

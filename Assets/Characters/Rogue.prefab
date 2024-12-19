@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0bbaed6bbb4171f47b838b459f4b0c82,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.86
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bbaed6bbb4171f47b838b459f4b0c82,
         type: 3}
@@ -99,6 +99,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0bbaed6bbb4171f47b838b459f4b0c82,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 5267072206530909331}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0bbaed6bbb4171f47b838b459f4b0c82,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1992486412314777629}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0bbaed6bbb4171f47b838b459f4b0c82,
         type: 3}
@@ -108,6 +112,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3409215550361076478}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0bbaed6bbb4171f47b838b459f4b0c82,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4583037900600884902}
   m_SourcePrefab: {fileID: 100100000, guid: 0bbaed6bbb4171f47b838b459f4b0c82, type: 3}
 --- !u!1 &941303332306911919 stripped
 GameObject:
@@ -140,8 +148,21 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &5267072206530909331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941303332306911919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 003228f6613e8e642bce8f29fe9a470d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4583037900600884902}
 --- !u!114 &1992486412314777629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +178,7 @@ MonoBehaviour:
   walkSpeed: 3
   sprintMultiplier: 1.5
   rotationSpeed: 10
+  currentMovement: {x: 0, y: 0, z: 0}
 --- !u!143 &166579372438424735
 CharacterController:
   m_ObjectHideFlags: 0
@@ -206,3 +228,24 @@ CapsuleCollider:
   m_Height: 1.1043067
   m_Direction: 1
   m_Center: {x: -0.0069177747, y: 0.54003847, z: -0.025201201}
+--- !u!95 &4583037900600884902
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941303332306911919}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0a97672e5c96f804c95cb2d9cf3bdf0d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
