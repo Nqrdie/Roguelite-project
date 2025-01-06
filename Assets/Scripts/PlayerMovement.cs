@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float rotationSpeed;
 
     // Booleans for the animator
-    public Vector3 currentMovement;
+    private Vector3 currentMovement;
     public bool isWalking;
     public bool isWalkingBackward;
     public bool isSprinting;
@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleRotation(Vector3 worldDirection, Vector3 cameraForward)
     {
-        if (currentMovement.magnitude > 0.01f) 
+        if (worldDirection.magnitude > 0.01f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(inputHandler.aimTriggered ? cameraForward : worldDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);

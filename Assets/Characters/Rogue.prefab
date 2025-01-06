@@ -107,6 +107,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0bbaed6bbb4171f47b838b459f4b0c82,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 2206334789327701844}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0bbaed6bbb4171f47b838b459f4b0c82,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 166579372438424735}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0bbaed6bbb4171f47b838b459f4b0c82,
         type: 3}
@@ -116,6 +120,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4583037900600884902}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0bbaed6bbb4171f47b838b459f4b0c82,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4173206890133518707}
   m_SourcePrefab: {fileID: 100100000, guid: 0bbaed6bbb4171f47b838b459f4b0c82, type: 3}
 --- !u!1 &941303332306911919 stripped
 GameObject:
@@ -178,7 +186,27 @@ MonoBehaviour:
   walkSpeed: 3
   sprintMultiplier: 1.5
   rotationSpeed: 10
-  currentMovement: {x: 0, y: 0, z: 0}
+  isWalking: 0
+  isWalkingBackward: 0
+  isSprinting: 0
+  isStrafing: 0
+  movementDirection: 0
+--- !u!114 &2206334789327701844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941303332306911919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6fc620629a6d9428cc38ebf2e546be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDuration: 0.2
+  attackCooldown: 0.4
+  hitCollider: {fileID: 4173206890133518707}
+  isAttacking: 0
 --- !u!143 &166579372438424735
 CharacterController:
   m_ObjectHideFlags: 0
@@ -202,7 +230,7 @@ CharacterController:
   m_Radius: 0.25
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!136 &3409215550361076478
@@ -222,12 +250,12 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.24881023
-  m_Height: 1.1043067
+  m_Height: 1.0786318
   m_Direction: 1
-  m_Center: {x: -0.0069177747, y: 0.54003847, z: -0.025201201}
+  m_Center: {x: -0.0069177747, y: 0.55287594, z: -0.025201201}
 --- !u!95 &4583037900600884902
 Animator:
   serializedVersion: 5
@@ -249,3 +277,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!135 &4173206890133518707
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941303332306911919}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 0.36837953
+  m_Center: {x: 0, y: 0.509818, z: 0.6184731}
