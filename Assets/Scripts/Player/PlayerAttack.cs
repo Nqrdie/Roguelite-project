@@ -20,6 +20,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
+        if (InventoryManager.menuActive) return;
         HandleInput();
     }
 
@@ -63,6 +64,12 @@ public class PlayerAttack : MonoBehaviour
             {
                 enemyHealth.TakeDamage(35);
             }
+        }
+        if(collision.gameObject.CompareTag("Chest"))
+        {
+            Chest chest = collision.gameObject.GetComponent<Chest>();
+
+            chest.OpenChest();
         }
     }
 }

@@ -1,32 +1,28 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Windows;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float aggroRange;
+    [SerializeField] protected float aggroRange;
 
-    [SerializeField] private float knockbackForce;
-    [SerializeField] private float knockbackDuration;
+    [SerializeField] protected float knockbackForce;
+    [SerializeField] protected float knockbackDuration;
 
-    [SerializeField] private float attackRange;
-    [SerializeField] private float attackDuration;
-    [SerializeField] private float attackCooldown;
-    [SerializeField] private Collider hitCollider;
+    [SerializeField] protected float attackRange;
+    [SerializeField] protected float attackDuration;
+    [SerializeField] protected float attackCooldown;
+    [SerializeField] protected Collider hitCollider;
     private bool isAttacking = false;
     private float lastAttack;
 
     protected States currentState;
     protected States previousState;
 
-    private Transform playerTransform;
-    private Transform enemyTransform;
+    protected Transform playerTransform;
+    protected Transform enemyTransform;
 
-    private NavMeshAgent enemyAgent;
+    protected NavMeshAgent enemyAgent;
 
     protected enum States
     {
@@ -98,18 +94,18 @@ public class Enemy : MonoBehaviour
 
 
         // Switch to Patrolling/Attacking based on distance to player
-        if (Vector3.Distance(enemyTransform.position, playerTransform.position) < 1)
+        if (Vector3.Distance(enemyTransform.position, playerTransform.position) < attackRange)
         {
            SwitchStates(States.attacking);
         }
     }
 
-    protected IEnumerator Attacking()
+    protected virtual IEnumerator Attacking()
     {
         // Switch to previous state based on distance to player
         if (Vector3.Distance(enemyTransform.position, playerTransform.position) > attackRange)
         {
-            SwitchStates(previousState);
+            SwitchStates(States.chasing);
         }
 
         // Attack the player
@@ -134,24 +130,22 @@ public class Enemy : MonoBehaviour
 
     public IEnumerator Knockback()
     {
-        SwitchStates(States.knockback);
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if(currentState != States.knockback)
+            SwitchStates(States.knockback);
+
         Vector3 direction = (enemyTransform.position - playerTransform.position).normalized;
-        float elapsedTime = 0f;
 
         enemyAgent.enabled = false;
 
-        while (elapsedTime < knockbackDuration)
-        {
-
-            gameObject.GetComponent<Rigidbody>().AddForce(direction * knockbackForce * Time.deltaTime, ForceMode.Force);
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
+        rb.AddForce(direction * knockbackForce * Time.deltaTime, ForceMode.Impulse);
+        
+        yield return new WaitForSeconds(knockbackDuration);
 
         enemyAgent.enabled = true;
+        rb.velocity = Vector3.zero;
 
-        SwitchStates(previousState);
+        SwitchStates(States.chasing);
     }
 
 

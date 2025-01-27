@@ -31,7 +31,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        HandleMovement();
+        if (!InventoryManager.menuActive)
+        {
+            HandleMovement();
+        }
     }
 
     private void HandleMovement()
@@ -60,9 +63,9 @@ public class PlayerMovement : MonoBehaviour
         currentMovement.x = worldDirection.x * speed;
         currentMovement.z = worldDirection.z * speed;
 
-        currentMovement += Physics.gravity;
-
         characterController.Move(currentMovement * Time.deltaTime);
+
+        currentMovement += Physics.gravity;
 
         // Logic for the animator booleans
         isWalking = movementInput.magnitude > 0.1f && !isWalkingBackward;

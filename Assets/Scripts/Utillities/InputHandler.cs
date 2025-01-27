@@ -15,12 +15,16 @@ public class InputHandler : MonoBehaviour
     [SerializeField] private string sprintActionName = "Sprint";
     [SerializeField] private string attackActionName = "Attack";
     [SerializeField] private string aimActionName = "Aim";
+    [SerializeField] private string inventoryActionName = "Inventory";
 
     private InputAction moveAction;
     //private InputAction jumpAction;
     private InputAction sprintAction;
     private InputAction attackAction;
     private InputAction aimAction;
+    private InputAction inventoryAction;
+
+    private InventoryManager inventoryManager;
 
     public Vector2 moveInput { get; private set; }
 
@@ -32,10 +36,14 @@ public class InputHandler : MonoBehaviour
 
     public bool aimTriggered { get; private set; }  
 
+    public bool inventoryTriggered { get; private set; }
+
     public static InputHandler Instance { get; private set; }
 
     private void Awake()
     {
+        inventoryManager = FindObjectOfType<InventoryManager>();
+
         if (Instance == null)
         {
             Instance = this;
@@ -51,6 +59,7 @@ public class InputHandler : MonoBehaviour
         //jumpAction = playerControls.FindActionMap(actionMapName).FindAction(jumpActionName);
         attackAction = playerControls.FindActionMap(actionMapName).FindAction(attackActionName);
         aimAction = playerControls.FindActionMap(actionMapName).FindAction(aimActionName);
+        inventoryAction = playerControls.FindActionMap(actionMapName).FindAction(inventoryActionName);
         RegisterInputActions();
     }
 
@@ -71,6 +80,7 @@ public class InputHandler : MonoBehaviour
         aimAction.performed += context => aimTriggered = true;
         aimAction.canceled += context => aimTriggered = false;
 
+        inventoryAction.performed += context => inventoryManager.OpenInventory();
 
     }
 
@@ -81,6 +91,7 @@ public class InputHandler : MonoBehaviour
         //jumpAction.Enable();    
         attackAction.Enable();
         aimAction.Enable();
+        inventoryAction.Enable();
     }
 
     private void OnDisable()
@@ -90,5 +101,6 @@ public class InputHandler : MonoBehaviour
         //jumpAction.Disable();
         attackAction.Disable();
         aimAction.Disable();
+        inventoryAction.Disable();
     }
 }

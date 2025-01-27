@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Health : MonoBehaviour, IDamageable
 {
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int health;
+    public UnityEvent onDeath;
 
     public void TakeDamage(int damageAmount)
     {
@@ -31,6 +33,13 @@ public class Health : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        Destroy(gameObject);
+        if (gameObject.CompareTag("Player"))
+        {
+            onDeath.Invoke();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }
